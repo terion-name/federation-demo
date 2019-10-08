@@ -2,7 +2,7 @@ const { ApolloServer, gql } = require("apollo-server");
 const { buildFederatedSchema } = require("@apollo/federation");
 
 const typeDefs = gql`
-  extend type Product @key(fields: "upc") {
+  extend type ProductsProduct @key(fields: "upc") {
     upc: String! @external
     weight: Int @external
     price: Int @external
@@ -12,7 +12,7 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
-  Product: {
+  ProductsProduct: {
     __resolveReference(object) {
       return {
         ...object,

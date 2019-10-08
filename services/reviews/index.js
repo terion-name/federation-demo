@@ -5,29 +5,29 @@ const typeDefs = gql`
   type Review @key(fields: "id") {
     id: ID!
     body: String
-    author: User @provides(fields: "username")
-    product: Product
+    author: AccountsUser @provides(fields: "username")
+    product: ProductsProduct
   }
 
-  extend type User @key(fields: "id") {
+  extend type AccountsUser @key(fields: "id") {
     id: ID! @external
     username: String @external
     reviews: [Review]
   }
 
-  extend type Product @key(fields: "upc") {
+  extend type ProductsProduct @key(fields: "upc") {
     upc: String! @external
     reviews: [Review]
   }
 `;
 
 const resolvers = {
-  Review: {
+  ReviewsReview: {
     author(review) {
-      return { __typename: "User", id: review.authorID };
+      return { __typename: "AccountsUser", id: review.authorID };
     }
   },
-  User: {
+  AccountsUser: {
     reviews(user) {
       return reviews.filter(review => review.authorID === user.id);
     },
@@ -39,7 +39,7 @@ const resolvers = {
       return found ? found.username : null;
     }
   },
-  Product: {
+  ProductsProduct: {
     reviews(product) {
       return reviews.filter(review => review.product.upc === product.upc);
     }
